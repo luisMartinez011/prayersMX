@@ -5,7 +5,7 @@ class UsuariosController < ApplicationController
   # POST /usuarios
   def create
     @usuario = Usuario.new(usuario_params)
-
+    @usuario.password = params[:password]
     if @usuario.save
       render body: "Please check your email for confirmation instructions.",
       status: :created, location: @usuario
@@ -19,6 +19,9 @@ class UsuariosController < ApplicationController
   end
 
   private
+    def set_usuario
+      @usuario = Usuario.find(params[:id])
+    end
     # Only allow a list of trusted parameters through.
     def usuario_params
       params.require(:usuario).permit(:email, :password)
