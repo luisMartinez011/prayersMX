@@ -49,3 +49,4 @@ class ProductosController < ApplicationController
       params.require(:producto).permit(:stock, :precio, :nombre)
     end
 end
+

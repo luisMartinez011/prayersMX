@@ -3,6 +3,6 @@ class Producto
   include Mongoid::Timestamps
   field :nombre, type: String
   field :stock, type: Integer
-  field :precio, type: Integer
+  field :precio, type: Float
 end
 

@@ -4,7 +4,6 @@ class CarritosController < ApplicationController
   # GET /carritos
   def index
     @carritos = Carrito.all
-
     render json: @carritos
   end
 
@@ -15,7 +14,9 @@ class CarritosController < ApplicationController
 
   # POST /carritos
   def create
-    @carrito = Carrito.new(carrito_params)
+
+    @carrito = Producto.where(nombre: params[:producto_attributes][:nombre])
+    @carrito = Carrito.create(producto: @carrito)
 
     if @carrito.save
       render json: @carrito, status: :created, location: @carrito
@@ -46,6 +47,6 @@ class CarritosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def carrito_params
-      params.require(:carrito).permit(:usuario_id, :productos_id)
+      params.require(:carrito).permit(producto_attributes: [:nombre])
     end
 end
