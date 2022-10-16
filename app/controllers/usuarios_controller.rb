@@ -3,7 +3,7 @@ class UsuariosController < ApplicationController
 
 
   # POST /usuarios
-  def create
+  def signup
     @usuario = Usuario.new(usuario_params)
     @usuario.password = params[:password]
     if @usuario.save
@@ -14,8 +14,14 @@ class UsuariosController < ApplicationController
     end
   end
 
-  def new
-    @usuario = Usuario.new
+  def login
+    @usuario = Usuario.where(email: params[:email]).first()
+    # render json: @usuario
+    if @usuario.password == params[:password]
+      @usuario.generate_confirmation_token
+    else
+      render body: "errpr fallo login"
+    end
   end
 
   private
