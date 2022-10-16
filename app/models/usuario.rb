@@ -2,8 +2,6 @@ class Usuario
   include Mongoid::Document
   include Mongoid::Timestamps
   include ActiveModel::SecurePassword
-  include ActiveRecord::Base.signed_id_verifier_secret
-  #include ActiveSupport::MessageVerifier
   CONFIRMATION_TOKEN_EXPIRATION = 10.minutes
 
   field :email, type: String

@@ -1,8 +1,7 @@
 class UsuariosController < ApplicationController
-  before_action :set_usuario, only: %i[ show update destroy ]
+  #before_action :authorize_request, except: :login
 
-
-  # POST /usuarios
+  
   def signup
     @usuario = Usuario.new(usuario_params)
     @usuario.password = params[:password]
@@ -18,9 +17,12 @@ class UsuariosController < ApplicationController
     @usuario = Usuario.where(email: params[:email]).first()
     # render json: @usuario
     if @usuario.password == params[:password]
-      @usuario.generate_confirmation_token
+      token = JsonWebToken.encode(_id: @usuario.id)
+      time = Time.now + 24.hours.to_i
+      render json: { token: token, exp: time.strftime("%m-%d-%Y %H:%M"),
+                     username: @usuario.email }, status: :ok
     else
-      render body: "errpr fallo login"
+      render json: { error: 'unauthorized' }, status: :unauthorized
     end
   end
 
