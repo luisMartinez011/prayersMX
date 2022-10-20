@@ -4,8 +4,8 @@ class VentasController < ApplicationController
   # GET /ventas
   def index
     @ventas = Venta.all
-    @producto = Producto.where(nombre: params[:producto_attributes][:nombre])
-    render json: @producto
+    producto = Producto.where(nombre: params[:producto_attributes][:nombre])
+    render json: @ventas
   end
 
   # GET /ventas/1
@@ -15,12 +15,12 @@ class VentasController < ApplicationController
 
   # POST /ventas
   def create
-    @producto = Producto.where(nombre: params[:producto_attributes][:nombre])
+    producto = Producto.where(nombre: params[:producto_attributes][:nombre]).first()
     
     @venta = Venta.create(
-      producto: @producto,
+      producto: producto,
       comprado: params[:comprado],
-      total: params[:comprado]* @producto.first().stock
+      total: params[:comprado] * producto.precio
       )
 
     if @venta.save
