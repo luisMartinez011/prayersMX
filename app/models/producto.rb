@@ -4,6 +4,7 @@ class Producto
   field :nombre, type: String
   field :stock, type: Integer
   field :precio, type: Float
-  has_many :ventas
+  
+  validates :nombre, uniqueness: true
 end
 

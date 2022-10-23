@@ -15,12 +15,13 @@ class VentasController < ApplicationController
 
   # POST /ventas
   def create
-    producto = Producto.where(nombre: params[:producto_attributes][:nombre]).first()
+    producto = Producto.where(nombre: params[:producto_attributes][:nombre])
     
+    #total: params[:comprado] * producto.precio
     @venta = Venta.create(
-      producto: producto,
+      productos: [producto.first],
       comprado: params[:comprado],
-      total: params[:comprado] * producto.precio
+      total: params[:comprado] 
       )
 
     if @venta.save

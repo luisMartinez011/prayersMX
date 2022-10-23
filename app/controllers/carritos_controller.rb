@@ -1,5 +1,6 @@
 class CarritosController < ApplicationController
   before_action :set_carrito, only: %i[ show update destroy ]
+  before_action :set_producto, only: %i[ show update destroy create ]
 
   # GET /carritos
   def index
@@ -14,9 +15,11 @@ class CarritosController < ApplicationController
 
   # POST /carritos
   def create
-
-    @carrito = Producto.where(nombre: params[:producto_attributes][:nombre])
-    @carrito = Carrito.create(producto: @carrito)
+    #find or create by Carrito
+    #@carrito = Carrito.find_or_create_by()
+    @carrito = Carrito.create(
+      productos: [@producto.first]
+    )
 
     if @carrito.save
       render json: @carrito, status: :created, location: @carrito
@@ -26,8 +29,14 @@ class CarritosController < ApplicationController
   end
 
   # PATCH/PUT /carritos/1
-  def update
-    if @carrito.update(carrito_params)
+  #Agregar productos al carrito
+  #Renombrar update -> agregar_producto
+  def update 
+    
+    @carrito.update_attributes(
+      productos: @carrito.productos.append(@producto)
+    )
+    if @carrito.update()
       render json: @carrito
     else
       render json: @carrito.errors, status: :unprocessable_entity
@@ -35,8 +44,17 @@ class CarritosController < ApplicationController
   end
 
   # DELETE /carritos/1
+  #destroy -> quitarProducto
   def destroy
-    @carrito.destroy
+    nuevos_productos = @carrito.productos.not.where(nombre: params[:nombre_producto])
+    @carrito.update_attributes(
+      productos: nuevos_productos
+    )
+    if @carrito.update
+      render json: @carrito
+    else
+      render json: @carrito.errors, status: :unprocessable_entity
+    end
   end
 
   private
@@ -45,8 +63,14 @@ class CarritosController < ApplicationController
       @carrito = Carrito.find(params[:id])
     end
 
+    def set_producto
+      @producto = Producto.where(nombre: params[:nombre_producto])
+    end
+
     # Only allow a list of trusted parameters through.
     def carrito_params
-      params.require(:carrito).permit(producto_attributes: [:nombre])
+      params.require(:carrito).permit(:cantidadComprada,
+        :nombre_producto
+      )
     end
 end
