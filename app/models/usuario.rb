@@ -4,6 +4,7 @@ class Usuario
   include ActiveModel::SecurePassword
   CONFIRMATION_TOKEN_EXPIRATION = 10.minutes
 
+  has_one :carrito
   field :email, type: String
   field :password_digest, type: String
   has_secure_password

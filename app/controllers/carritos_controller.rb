@@ -1,28 +1,21 @@
 class CarritosController < ApplicationController
-  before_action :set_carrito, only: %i[ show update destroy ]
-  before_action :set_producto, only: %i[ show update destroy create ]
-
-  # GET /carritos
-  def index
-    @carritos = Carrito.all
-    render json: @carritos
-  end
-
+  before_action :set_carrito, only: %i[ ver_carrito agregar_producto quitar_producto ]
+  before_action :set_producto
+  
   # GET /carritos/1
-  def show
+  def ver_carrito
+    
     render json: @carrito
   end
 
-  # POST /carritos
+  #POST /carritos
   def create
     #find or create by Carrito
     #@carrito = Carrito.find_or_create_by()
-    @carrito = Carrito.create(
-      productos: [@producto.first]
-    )
+    @carrito = Carrito.create()
 
     if @carrito.save
-      render json: @carrito, status: :created, location: @carrito
+      render json: @carrito
     else
       render json: @carrito.errors, status: :unprocessable_entity
     end
@@ -31,10 +24,11 @@ class CarritosController < ApplicationController
   # PATCH/PUT /carritos/1
   #Agregar productos al carrito
   #Renombrar update -> agregar_producto
-  def update 
+  def agregar_producto 
     
     @carrito.update_attributes(
-      productos: @carrito.productos.append(@producto)
+      productos: @carrito.productos.append(@producto),
+      cantidadComprada: params[:cantidadComprada]
     )
     if @carrito.update()
       render json: @carrito
@@ -45,7 +39,7 @@ class CarritosController < ApplicationController
 
   # DELETE /carritos/1
   #destroy -> quitarProducto
-  def destroy
+  def quitar_producto
     nuevos_productos = @carrito.productos.not.where(nombre: params[:nombre_producto])
     @carrito.update_attributes(
       productos: nuevos_productos

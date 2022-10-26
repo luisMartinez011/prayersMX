@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   resources :ventas
-  resources :carritos
   #resources :usuarios
   resources :productos
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -9,6 +8,11 @@ Rails.application.routes.draw do
     post '/signup', to: 'usuarios#signup', as: "usuario"
     post '/login', to: 'usuarios#login'
   end
-  # Defines the root path route ("/")
-  # root "articles#index"
+  
+  scope '/carritos' do
+    get '/:id', to: 'carritos#ver_carrito'
+    post '/', to: 'carritos#create' 
+    patch '/:id', to: 'carritos#agregar_producto'
+    delete '/:id', to: 'carritos#quitar_producto'
+  end 
 end

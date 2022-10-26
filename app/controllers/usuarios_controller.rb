@@ -3,11 +3,19 @@ class UsuariosController < ApplicationController
 
   
   def signup
-    @usuario = Usuario.new(usuario_params)
+    
+    @usuario = Usuario.create!(
+      email: params[:email],
+      password: params[:password],
+      carrito: Carrito.new
+    )
+    
+    #@usuario.carrito = Carrito.new
     @usuario.password = params[:password]
-    if @usuario.save
-      render body: "Please check your email for confirmation instructions.",
-      status: :created, location: @usuario
+    
+    if @usuario.save 
+      
+      render json: @usuario
     else
       render :new, status: :unprocessable_entity
     end
