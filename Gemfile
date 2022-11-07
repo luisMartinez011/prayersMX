@@ -49,4 +49,5 @@ group :development do
 end
 
 # swagger open api
+gem 'rspec-rails'
 gem 'rswag'
