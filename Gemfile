@@ -48,3 +48,5 @@ group :development do
   # gem "spring"
 end
 
+# swagger open api
+gem 'rswag'

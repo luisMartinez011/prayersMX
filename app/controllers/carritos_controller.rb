@@ -1,5 +1,5 @@
 class CarritosController < ApplicationController
-  before_action :set_carrito, only: %i[ ver_carrito agregar_producto quitar_producto ]
+  before_action :set_carrito, except: :create
   before_action :set_producto
   
   # GET /carritos/1
@@ -21,7 +21,7 @@ class CarritosController < ApplicationController
     end
   end
 
-  # PATCH/PUT /carritos/1
+  # PATCH /carritos/1
   #Agregar productos al carrito
   #Renombrar update -> agregar_producto
   def agregar_producto 
@@ -51,10 +51,21 @@ class CarritosController < ApplicationController
     end
   end
 
+  def comprar
+    @carrito.update_attributes(
+      productos: []
+    )
+    if @carrito.update
+      render json: @carrito
+    else
+      render json: @carrito.errors, status: :unprocessable_entity
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_carrito
-      @carrito = Carrito.find(params[:id])
+      @carrito = Usuario.find(params[:id]).carrito
     end
 
     def set_producto

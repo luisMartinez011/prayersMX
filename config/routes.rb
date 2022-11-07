@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
   resources :ventas
   #resources :usuarios
   resources :productos
@@ -14,5 +16,7 @@ Rails.application.routes.draw do
     post '/', to: 'carritos#create' 
     patch '/:id', to: 'carritos#agregar_producto'
     delete '/:id', to: 'carritos#quitar_producto'
+
+    delete '/comprar/:id', to: 'carritos#comprar'
   end 
 end
