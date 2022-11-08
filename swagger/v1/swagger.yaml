@@ -3,9 +3,33 @@ openapi: 3.0.1
 info:
   title: API V1
   version: v1
-paths: {}
+paths:
+  "/usuarios/signup":
+    post:
+      summary: signup usuario
+      tags:
+      - Usuarios
+      parameters: []
+      responses:
+        '200':
+          description: successful
+        '400':
+          description: user already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
 servers:
-- url: https://{defaultHost}
+- url: http://localhost:3000
   variables:
     defaultHost:
-      default: www.example.com
+      default: http://localhost:3000

@@ -1,4 +1,4 @@
-class Usuario 
+class Usuario
   include Mongoid::Document
   include Mongoid::Timestamps
   include ActiveModel::SecurePassword
@@ -9,7 +9,8 @@ class Usuario
   field :password_digest, type: String
   has_secure_password
 
-  validates_presence_of :carrito
+  validates :email, email: true
+  #validates_presence_of :carrito
   include BCrypt
   def password
     @password ||= Password.new(password_digest)

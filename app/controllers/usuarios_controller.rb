@@ -1,5 +1,5 @@
 class UsuariosController < ApplicationController
-  before_action :authorize_request, except: :login
+  #before_action :authorize_request, except: :login
 
   
   def signup

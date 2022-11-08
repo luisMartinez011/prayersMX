@@ -79,6 +79,8 @@ GEM
       irb (>= 1.3.6)
       reline (>= 0.3.1)
     diff-lcs (1.5.0)
+    email_validator (2.2.3)
+      activemodel
     erubi (1.11.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -105,6 +107,16 @@ GEM
       activemodel (>= 5.1, < 7.1, != 7.0.0)
       mongo (>= 2.18.0, < 3.0.0)
       ruby2_keywords (~> 0.0.5)
+    mongoid-compatibility (0.6.0)
+      activesupport
+      mongoid (>= 2.0)
+    mongoid-rspec (4.1.0)
+      activesupport (>= 3.0.0)
+      mongoid (>= 3.1)
+      mongoid-compatibility (>= 0.5.1)
+      rspec-core (~> 3.3)
+      rspec-expectations (~> 3.3)
+      rspec-mocks (~> 3.3)
     msgpack (1.6.0)
     net-imap (0.3.1)
       net-protocol
@@ -122,6 +134,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.6.0)
     rack (2.2.4)
+    rack-cors (1.1.1)
+      rack (>= 2.0.0)
     rack-test (2.0.2)
       rack (>= 1.3)
     rails (7.0.4)
@@ -202,9 +216,12 @@ DEPENDENCIES
   bcrypt (~> 3.1, >= 3.1.11)
   bootsnap
   debug
+  email_validator
   jwt
   mongoid (~> 8.0, >= 8.0.2)
+  mongoid-rspec
   puma (~> 5.0)
+  rack-cors
   rails (~> 7.0.4)
   rspec-rails
   rswag
