@@ -4,30 +4,206 @@ info:
   title: API V1
   version: v1
 paths:
+  "/productos":
+    get:
+      summary: list productos
+      tags:
+      - Producto
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create producto
+      tags:
+      - Producto
+      responses:
+        '200':
+          description: successful
+  "/productos/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show producto
+      tags:
+      - Producto
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update producto
+      tags:
+      - Producto
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update producto
+      tags:
+      - Producto
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete producto
+      tags:
+      - Producto
+      responses:
+        '200':
+          description: successful
   "/usuarios/signup":
     post:
       summary: signup usuario
       tags:
-      - Usuarios
+      - Usuario
       parameters: []
       responses:
         '200':
           description: successful
-        '400':
-          description: user already exists
+        '422':
+          description: bad parameters
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                password:
-                  type: string
-              required:
-              - email
-              - password
+              "$ref": "#/components/schemas/usuario"
+  "/usuarios/login":
+    post:
+      summary: login usuario
+      tags:
+      - Usuario
+      responses:
+        '200':
+          description: successful
+  "/ventas":
+    get:
+      summary: list venta
+      tags:
+      - Venta
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create venta
+      tags:
+      - Venta
+      responses:
+        '200':
+          description: successful
+  "/ventas/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show venta
+      tags:
+      - Venta
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update venta
+      tags:
+      - Venta
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update venta
+      tags:
+      - Venta
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete venta
+      tags:
+      - Venta
+      responses:
+        '200':
+          description: successful
+components:
+  schemas:
+    errors_object:
+      type: object
+      properties:
+        errors:
+          "$ref": "#/components/schemas/errors_map"
+    errors_map:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    usuario:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
+        carrito:
+          "$ref": "#/components/schemas/carrito"
+      required:
+      - email
+      - password
+      - name
+    carrito:
+      type: object
+      properties:
+        total:
+          type: float
+        cantidadComprada:
+          type: float
+        producto:
+          type: array
+          items:
+            "$ref": "#/components/schemas/producto"
+      required:
+      - total
+      - cantidadComprada
+      - producto
+    producto:
+      type: object
+      properties:
+        nombre:
+          type: string
+        stock:
+          type: integer
+        precio:
+          type: float
+        descripcion:
+          type: string
+      required:
+      - nombre
+      - stock
+      - precio
+      - descripcion
+    venta:
+      type: object
+      properties:
+        comprado:
+          type: integer
+        total:
+          type: float
+        producto:
+          type: array
+          items:
+            "$ref": "#/components/schemas/producto"
+      required:
+      - comprado
+      - total
+      - producto
 servers:
 - url: http://localhost:3000
   variables:

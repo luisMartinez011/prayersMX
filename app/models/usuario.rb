@@ -4,13 +4,16 @@ class Usuario
   include ActiveModel::SecurePassword
   CONFIRMATION_TOKEN_EXPIRATION = 10.minutes
 
-  has_one :carrito, autosave: true
+  
   field :email, type: String
   field :password_digest, type: String
-  has_secure_password
+  field :name, type: String
 
-  validates :email, email: true
-  #validates_presence_of :carrito
+  has_one :carrito, autosave: true
+  
+  #validates :username, email: true, uniqueness: true
+  #validates :email, email: true, uniqueness: true
+  has_secure_password
   include BCrypt
   def password
     @password ||= Password.new(password_digest)

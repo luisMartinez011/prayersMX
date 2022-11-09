@@ -21,6 +21,71 @@ RSpec.configure do |config|
         version: 'v1'
       },
       paths: {},
+      components: {
+        schemas: {
+          errors_object: {
+            type: 'object',
+            properties: {
+              errors: { '$ref' => '#/components/schemas/errors_map' }
+            }
+          },
+          errors_map: {
+            type: 'object',
+            additionalProperties: {
+              type: 'array',
+              items: { type: 'string' }
+            }
+          },
+          usuario: {
+            type: :object,
+            properties: {
+              email: { type: :string },
+              password: { type: :string },
+              name: { type: :string },
+              carrito: { '$ref' => '#/components/schemas/carrito' }
+            },
+            required: [ "email", "password", "name"]
+          },
+          carrito: {
+            type: :object,
+            properties: {
+              total: { type: :float },
+              cantidadComprada: { type: :float },
+              producto: { 
+                type: :array,
+                items:{
+                  '$ref' => '#/components/schemas/producto' 
+                }
+              }
+            },
+            required: [ "total", "cantidadComprada", "producto"]
+          },
+          producto: {
+            type: :object,
+            properties: {
+              nombre: { type: :string },
+              stock: { type: :integer },
+              precio: { type: :float },
+              descripcion: { type: :string },
+            },
+            required: [ "nombre", "stock", "precio", "descripcion"]
+          },
+          venta: {
+            type: :object,
+            properties: {
+              comprado: { type: :integer },
+              total: { type: :float },
+              producto: { 
+                type: :array,
+                items:{
+                  '$ref' => '#/components/schemas/producto' 
+                }
+              }
+            },
+            required: [ "comprado", "total", "producto"]
+          },
+        }
+      },
       servers: [
         {
           url: 'http://localhost:3000',
