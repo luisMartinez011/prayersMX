@@ -42,15 +42,16 @@ RSpec.configure do |config|
               email: { type: :string },
               password: { type: :string },
               name: { type: :string },
-              carrito: { '$ref' => '#/components/schemas/carrito' }
+              carrito: { '$ref' => '#/components/schemas/carrito' },
+              ventas: { '$ref' => '#/components/schemas/venta' }
             },
             required: [ "email", "password", "name"]
           },
           carrito: {
             type: :object,
             properties: {
-              total: { type: :float },
-              cantidadComprada: { type: :float },
+              total: { type: :number },
+              cantidadComprada: { type: :number },
               producto: { 
                 type: :array,
                 items:{
@@ -65,16 +66,17 @@ RSpec.configure do |config|
             properties: {
               nombre: { type: :string },
               stock: { type: :integer },
-              precio: { type: :float },
+              precio: { type: :number },
               descripcion: { type: :string },
+              imagen: { type: :string },
             },
-            required: [ "nombre", "stock", "precio", "descripcion"]
+            required: [ "nombre", "stock", "precio", "descripcion", "imagen"]
           },
           venta: {
             type: :object,
             properties: {
               comprado: { type: :integer },
-              total: { type: :float },
+              total: { type: :number },
               producto: { 
                 type: :array,
                 items:{

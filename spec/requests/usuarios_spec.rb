@@ -7,7 +7,15 @@ RSpec.describe 'usuarios', type: :request do
     post('signup usuario') do
       tags "Usuario"
       consumes 'application/json'
-      parameter name: :new_usuario, in: :body, schema: { '$ref' => '#/components/schemas/usuario' }
+      parameter name: :new_usuario, in: :body, schema: { 
+        type: :object,
+            properties: {
+              email: { type: :string },
+              password: { type: :string },
+              name: { type: :string },
+            },
+        required: [ "email", "password", "name"]
+      }
 
       response(200, 'successful') do
         
@@ -33,8 +41,19 @@ RSpec.describe 'usuarios', type: :request do
   path '/usuarios/login' do
 
     post('login usuario') do
+      tags "Usuario"
+      consumes 'application/json'
+      parameter name: :new_usuario, in: :body, schema: { 
+        type: :object,
+            properties: {
+              email: { type: :string },
+              password: { type: :string },
+              name: { type: :string },
+            },
+        required: [ "email", "password", "name"]
+      }
+      
       response(200, 'successful') do
-        tags "Usuario"
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {

@@ -21,8 +21,10 @@ RSpec.describe 'productos', type: :request do
     end
 
     post('create producto') do
+      
       tags "Producto"
       consumes 'application/json'
+      parameter name: :producto, in: :body, schema: { '$ref' => '#/components/schemas/producto' }
       response(200, 'successful') do
 
         after do |example|
@@ -41,7 +43,7 @@ RSpec.describe 'productos', type: :request do
     # You'll want to customize the parameter types...
     parameter name: 'id', in: :path, type: :string, description: 'id'
 
-    get('show producto') do
+    get('show one producto') do
       tags "Producto"
       produces  'application/json'
       response(200, 'successful') do
@@ -58,55 +60,55 @@ RSpec.describe 'productos', type: :request do
       end
     end
 
-    patch('update producto') do
-      tags "Producto"
-      consumes 'application/json'
-      response(200, 'successful') do
-        let(:id) { '123' }
+    # patch('update producto') do
+    #   tags "Producto"
+    #   consumes 'application/json'
+    #   response(200, 'successful') do
+    #     let(:id) { '123' }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
-        run_test!
-      end
-    end
+    #     after do |example|
+    #       example.metadata[:response][:content] = {
+    #         'application/json' => {
+    #           example: JSON.parse(response.body, symbolize_names: true)
+    #         }
+    #       }
+    #     end
+    #     run_test!
+    #   end
+    # end
 
-    put('update producto') do
-      tags "Producto"
-      consumes 'application/json'
-      response(200, 'successful') do
-        let(:id) { '123' }
+    # put('update producto') do
+    #   tags "Producto"
+    #   consumes 'application/json'
+    #   response(200, 'successful') do
+    #     let(:id) { '123' }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
-        run_test!
-      end
-    end
+    #     after do |example|
+    #       example.metadata[:response][:content] = {
+    #         'application/json' => {
+    #           example: JSON.parse(response.body, symbolize_names: true)
+    #         }
+    #       }
+    #     end
+    #     run_test!
+    #   end
+    # end
 
-    delete('delete producto') do
-      tags "Producto"
-      consumes 'application/json'
-      response(200, 'successful') do
-        let(:id) { '123' }
+    # delete('delete producto') do
+    #   tags "Producto"
+    #   consumes 'application/json'
+    #   response(200, 'successful') do
+    #     let(:id) { '123' }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
-        run_test!
-      end
-    end
+    #     after do |example|
+    #       example.metadata[:response][:content] = {
+    #         'application/json' => {
+    #           example: JSON.parse(response.body, symbolize_names: true)
+    #         }
+    #       }
+    #     end
+    #     run_test!
+    #   end
+    # end
   end
 end

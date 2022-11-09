@@ -4,21 +4,23 @@ class UsuariosController < ApplicationController
   
   def signup
     
+    
     @usuario = Usuario.create!(
       email: params[:email],
       password: params[:password],
-      carrito: Carrito.new
+      name: params[:name],
+      carrito: Carrito.new,
+      venta: Venta.new
     )
     
-    #@usuario.carrito = Carrito.new
     @usuario.password = params[:password]
     
     if @usuario.save 
-      
-      token = JsonWebToken.encode(_id: @usuario.id)
-      time = Time.now + 24.hours.to_i
-      render json: { token: token, exp: time.strftime("%m-%d-%Y %H:%M"),
-                     username: @usuario.email }, status: :ok
+      render json: @usuario
+      # token = JsonWebToken.encode(_id: @usuario.id)
+      # time = Time.now + 24.hours.to_i
+      # render json: { token: token, exp: time.strftime("%m-%d-%Y %H:%M"),
+      #                username: @usuario.email }, status: :ok
     else
       render :new, status: :unprocessable_entity
     end
@@ -43,6 +45,6 @@ class UsuariosController < ApplicationController
     end
     # Only allow a list of trusted parameters through.
     def usuario_params
-      params.require(:usuario).permit(:email, :password)
+      params.require(:usuario).permit(:email, :password, :name)
     end
 end

@@ -4,6 +4,58 @@ info:
   title: API V1
   version: v1
 paths:
+  "/carritos/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: ver_carrito carrito
+      tags:
+      - Carrito
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: agregar_Carrito carrito
+      tags:
+      - Carrito
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: quitar_Carrito carrito
+      tags:
+      - Carrito
+      responses:
+        '200':
+          description: successful
+  "/carritos":
+    post:
+      summary: create carrito
+      tags:
+      - Carrito
+      responses:
+        '200':
+          description: successful
+  "/carritos/comprar/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    delete:
+      summary: comprar carrito
+      tags:
+      - Carrito
+      responses:
+        '200':
+          description: successful
   "/productos":
     get:
       summary: list productos
@@ -16,9 +68,15 @@ paths:
       summary: create producto
       tags:
       - Producto
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/producto"
   "/productos/{id}":
     parameters:
     - name: id
@@ -28,28 +86,7 @@ paths:
       schema:
         type: string
     get:
-      summary: show producto
-      tags:
-      - Producto
-      responses:
-        '200':
-          description: successful
-    patch:
-      summary: update producto
-      tags:
-      - Producto
-      responses:
-        '200':
-          description: successful
-    put:
-      summary: update producto
-      tags:
-      - Producto
-      responses:
-        '200':
-          description: successful
-    delete:
-      summary: delete producto
+      summary: show one producto
       tags:
       - Producto
       responses:
@@ -70,7 +107,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/usuario"
+              "$ref": "#/components/schemas/new_usuario"
   "/usuarios/login":
     post:
       summary: login usuario
@@ -154,6 +191,21 @@ components:
           type: string
         carrito:
           "$ref": "#/components/schemas/carrito"
+        ventas:
+          "$ref": "#/components/schemas/venta"
+      required:
+      - email
+      - password
+      - name
+    new_usuario:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
       required:
       - email
       - password
@@ -162,9 +214,9 @@ components:
       type: object
       properties:
         total:
-          type: float
+          type: number
         cantidadComprada:
-          type: float
+          type: number
         producto:
           type: array
           items:
@@ -181,21 +233,24 @@ components:
         stock:
           type: integer
         precio:
-          type: float
+          type: number
         descripcion:
+          type: string
+        imagen:
           type: string
       required:
       - nombre
       - stock
       - precio
       - descripcion
+      - imagen
     venta:
       type: object
       properties:
         comprado:
           type: integer
         total:
-          type: float
+          type: number
         producto:
           type: array
           items:

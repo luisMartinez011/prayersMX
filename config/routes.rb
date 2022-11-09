@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   scope '/usuarios' do
-    post '/signup', to: 'usuarios#signup', as: "usuario"
+    post '/signup', to: 'usuarios#signup'
     post '/login', to: 'usuarios#login'
   end
   
