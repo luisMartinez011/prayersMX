@@ -56,3 +56,4 @@ end
 gem 'rspec-rails'
 gem 'rswag'
 gem 'email_validator'  
+gem 'github-pages', group: :jekyll_plugins
