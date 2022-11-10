@@ -9,7 +9,7 @@ class Usuario
 
   has_one :carrito, autosave: true
   has_one :compra,  autosave: true
-  validates :email, email: true, uniqueness: true
+  validates :email, email: true
   
   
   
