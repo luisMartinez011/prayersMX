@@ -5,25 +5,37 @@ class CarritosController < ApplicationController
   before_action :authorize_request
   # GET /carritos/1
   def ver_carrito
-    #@carrito.orders.map(&:productos)
-    productines = @carrito.orders.delete_if {|a| a.producto.nombre == params[:nombre_producto] }
-    render json: @carrito
+    Usuario.find(params[:id]).compra
+    render json: Usuario.find(params[:id]).compra
+
   end
 
   # PATCH /carritos/1
   # Agregar productos al carrito
   # Renombrar update -> agregar_producto
   def agregar_producto 
+    isRepeated = @carrito.orders.select {|a| a.producto.nombre == params[:nombre_producto] }
+    if isRepeated.length != 0
+      selectedOrder = @carrito.orders.find(isRepeated.first.id)
+      selectedOrder.update_attributes(
+        cantidad: params[:cantidadComprada],
+        total: selectedOrder.producto.precio * params[:cantidadComprada]
+      )
 
-    @order.update_attributes!(
-      cantidad: params[:cantidadComprada],
-      total: @order.producto.precio * params[:cantidadComprada]
-    )
-    @order.update()
+    else
+      @order.update_attributes!(
+        cantidad: params[:cantidadComprada],
+        total: @order.producto.precio * params[:cantidadComprada]
+      )
 
-    @carrito.update_attributes(
-      orders: @carrito.orders.append(@order)
-    )
+      @order.update()
+
+      @carrito.update_attributes(
+        orders: @carrito.orders.append(@order)
+      )
+    end
+   
+    
 
     @carrito.update_attributes(
       total: @carrito.orders.sum("total")
@@ -55,6 +67,14 @@ class CarritosController < ApplicationController
   end
 
   def comprar
+    compras = Usuario.find(params[:id]).compra
+    compras.update_attributes(
+      orders: compras.orders.append(@carrito.orders),
+    )
+    compras.update_attributes(
+      total: compras.orders.sum("total")
+    )
+    compras.update
 
     @carrito.update_attributes(
       orders: [],
