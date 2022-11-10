@@ -2,16 +2,16 @@ class Usuario
   include Mongoid::Document
   include Mongoid::Timestamps
   include ActiveModel::SecurePassword
-  CONFIRMATION_TOKEN_EXPIRATION = 60.minutes
+  CONFIRMATION_TOKEN_EXPIRATION = 30000.minutes
   field :email, type: String
   field :password_digest, type: String
   field :name, type: String
 
   has_one :carrito, autosave: true
-  has_one :venta,  autosave: true
-  #validates :username, email: true, uniqueness: true
-  #validates :email, email: true, uniqueness: true
-  validates :venta, presence: true
+  has_one :compra,  autosave: true
+  
+  validates :email, email: true, uniqueness: true
+  
   
   
   has_secure_password

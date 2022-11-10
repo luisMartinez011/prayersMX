@@ -4,23 +4,27 @@ class UsuariosController < ApplicationController
   
   def signup
     
-    
+
     @usuario = Usuario.create!(
       email: params[:email],
       password: params[:password],
       name: params[:name],
       carrito: Carrito.new,
-      venta: Venta.new
+      compra: Compra.new
     )
     
     @usuario.password = params[:password]
     
     if @usuario.save 
-      render json: @usuario
-      # token = JsonWebToken.encode(_id: @usuario.id)
-      # time = Time.now + 24.hours.to_i
-      # render json: { token: token, exp: time.strftime("%m-%d-%Y %H:%M"),
-      #                username: @usuario.email }, status: :ok
+      token = JsonWebToken.encode(_id: @usuario.id)
+      time = Time.now + 24.hours.to_i
+      render json: { token: token, exp: time.strftime("%m-%d-%Y %H:%M"),
+                    email: @usuario.email,
+                    nombre: @usuario.name,
+                    usuario_id: @usuario.id,
+                    compra: @usuario.compra.id,
+                    carrito: @usuario.carrito.id
+                    }, status: :ok
     else
       render :new, status: :unprocessable_entity
     end
@@ -33,7 +37,12 @@ class UsuariosController < ApplicationController
       token = JsonWebToken.encode(_id: @usuario.id)
       time = Time.now + 24.hours.to_i
       render json: { token: token, exp: time.strftime("%m-%d-%Y %H:%M"),
-                     username: @usuario.email }, status: :ok
+                    email: @usuario.email,
+                    nombre: @usuario.name,
+                    usuario_id: @usuario.id,
+                    compra_id: @usuario.compra.id,
+                    carrito_id: @usuario.carrito.id
+                    }, status: :ok
     else
       render json: { error: 'unauthorized' }, status: :unauthorized
     end

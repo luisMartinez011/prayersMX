@@ -1,24 +1,11 @@
 class CarritosController < ApplicationController
   before_action :set_carrito, except: :create
   before_action :set_producto
-  
+  before_action :authorize_request
+
   # GET /carritos/1
   def ver_carrito
-    
     render json: @carrito
-  end
-
-  #POST /carritos
-  def create
-    #find or create by Carrito
-    #@carrito = Carrito.find_or_create_by()
-    @carrito = Carrito.create()
-
-    if @carrito.save
-      render json: @carrito
-    else
-      render json: @carrito.errors, status: :unprocessable_entity
-    end
   end
 
   # PATCH /carritos/1
