@@ -16,15 +16,7 @@ class UsuariosController < ApplicationController
     @usuario.password = params[:password]
     
     if @usuario.save 
-      token = JsonWebToken.encode(_id: @usuario.id)
-      time = Time.now + 24.hours.to_i
-      render json: { token: token, exp: time.strftime("%m-%d-%Y %H:%M"),
-                    email: @usuario.email,
-                    nombre: @usuario.name,
-                    usuario_id: @usuario.id,
-                    compra: @usuario.compra.id,
-                    carrito: @usuario.carrito.id
-                    }, status: :ok
+      @usuario.carrito
     else
       render :new, status: :unprocessable_entity
     end

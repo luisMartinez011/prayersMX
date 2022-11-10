@@ -1,35 +1,51 @@
 class CarritosController < ApplicationController
   before_action :set_carrito, except: :create
   before_action :set_producto
+  before_action :set_order
   before_action :authorize_request
-
   # GET /carritos/1
   def ver_carrito
+    #@carrito.orders.map(&:productos)
+    productines = @carrito.orders.delete_if {|a| a.producto.nombre == params[:nombre_producto] }
     render json: @carrito
   end
 
   # PATCH /carritos/1
-  #Agregar productos al carrito
-  #Renombrar update -> agregar_producto
+  # Agregar productos al carrito
+  # Renombrar update -> agregar_producto
   def agregar_producto 
-    
-    @carrito.update_attributes(
-      productos: @carrito.productos.append(@producto),
-      cantidadComprada: params[:cantidadComprada]
+
+    @order.update_attributes!(
+      cantidad: params[:cantidadComprada],
+      total: @order.producto.precio * params[:cantidadComprada]
     )
-    if @carrito.update()
+    @order.update()
+
+    @carrito.update_attributes(
+      orders: @carrito.orders.append(@order)
+    )
+
+    @carrito.update_attributes(
+      total: @carrito.orders.sum("total")
+    )
+    
+    if @carrito.update() 
       render json: @carrito
     else
       render json: @carrito.errors, status: :unprocessable_entity
     end
   end
 
-  # DELETE /carritos/1
-  #destroy -> quitarProducto
+  
+  # # DELETE /carritos/1
+  # #destroy -> quitarProducto
   def quitar_producto
-    nuevos_productos = @carrito.productos.not.where(nombre: params[:nombre_producto])
+    new_orders = @carrito.orders.select {|a| a.producto.nombre != params[:nombre_producto] }
+    
+
     @carrito.update_attributes(
-      productos: nuevos_productos
+      orders: new_orders,
+      total: new_orders.sum("total")
     )
     if @carrito.update
       render json: @carrito
@@ -39,8 +55,10 @@ class CarritosController < ApplicationController
   end
 
   def comprar
+
     @carrito.update_attributes(
-      productos: []
+      orders: [],
+      total: 0
     )
     if @carrito.update
       render json: @carrito
@@ -57,6 +75,10 @@ class CarritosController < ApplicationController
 
     def set_producto
       @producto = Producto.where(nombre: params[:nombre_producto])
+    end
+
+    def set_order
+      @order = Order.create!(producto: @producto.first)
     end
 
     # Only allow a list of trusted parameters through.

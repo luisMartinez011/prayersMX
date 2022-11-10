@@ -14,7 +14,6 @@ Rails.application.routes.draw do
   
   scope '/carritos' do
     get '/:id', to: 'carritos#ver_carrito'
-    post '/', to: 'carritos#create' 
     patch '/:id', to: 'carritos#agregar_producto'
     delete '/:id', to: 'carritos#quitar_producto'
 
