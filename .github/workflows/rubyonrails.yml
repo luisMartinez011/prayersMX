@@ -16,7 +16,8 @@ jobs:
     
     env:
       RAILS_ENV: test
-      DATABASE_URL: "mongodb+srv://Luis:SFW2003work@e-commerce.tgyb0.mongodb.net/prayersMXt"
+      db:
+        mongo: mongodb+srv://Luis:SFW2003work@e-commerce.tgyb0.mongodb.net/prayersMX
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
