@@ -12,7 +12,7 @@ development:
       #database: prayersMX
       # Provides the hosts the default client can connect to. Must be an array
       # of host:port pairs. (required)
-      uri: <%= Rails.application.credentials.mongo %>
+      uri: mongodb+srv://Luis:SFW2003work@e-commerce.tgyb0.mongodb.net/prayersMX
       options:
         server_selection_timeout: 5
         # Note that all options listed below are Ruby driver client options (the mongo gem).
@@ -176,6 +176,6 @@ development:
 test:
   clients:
     default:
-      uri: <%= Rails.application.credentials.mongo %>
+      uri: mongodb+srv://Luis:SFW2003work@e-commerce.tgyb0.mongodb.net/prayersMX
       options:
         server_selection_timeout: 5
