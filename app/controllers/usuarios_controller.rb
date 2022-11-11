@@ -5,7 +5,7 @@ class UsuariosController < ApplicationController
   def signup
     
 
-    @usuario = Usuario.create(
+    @usuario = Usuario.create!(
       email: params[:email],
       password: params[:password],
       name: params[:name],
