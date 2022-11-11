@@ -8,66 +8,25 @@ paths:
     parameters:
     - name: id
       in: path
-      description: id
+      description: id del usuario
       required: true
       schema:
         type: string
     get:
-      summary: ver_carrito carrito
+      summary: ver carrito del usuario
       tags:
       - Carrito
+      security:
+      - Bearer: []
       responses:
         '200':
           description: successful
     patch:
-      summary: agregar_Carrito carrito
+      summary: agregar un producto al carrito
       tags:
       - Carrito
-      responses:
-        '200':
-          description: successful
-    delete:
-      summary: quitar_Carrito carrito
-      tags:
-      - Carrito
-      responses:
-        '200':
-          description: successful
-  "/carritos":
-    post:
-      summary: create carrito
-      tags:
-      - Carrito
-      responses:
-        '200':
-          description: successful
-  "/carritos/comprar/{id}":
-    parameters:
-    - name: id
-      in: path
-      description: id
-      required: true
-      schema:
-        type: string
-    delete:
-      summary: comprar carrito
-      tags:
-      - Carrito
-      responses:
-        '200':
-          description: successful
-  "/productos":
-    get:
-      summary: list productos
-      tags:
-      - Producto
-      responses:
-        '200':
-          description: successful
-    post:
-      summary: create producto
-      tags:
-      - Producto
+      security:
+      - Bearer: []
       parameters: []
       responses:
         '200':
@@ -76,12 +35,82 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/producto"
+              type: object
+              properties:
+                nombre_producto:
+                  type: string
+                cantidadComprada:
+                  type: integer
+              required:
+              - nombre_producto
+              - cantidadComprada
+    delete:
+      summary: quitar un producto del carrito
+      tags:
+      - Carrito
+      security:
+      - Bearer: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre_producto:
+                  type: string
+              required:
+              - nombre_producto
+  "/carritos/comprar/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id del usuario
+      required: true
+      schema:
+        type: string
+    delete:
+      summary: comprar los productos del carrito
+      tags:
+      - Carrito
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+  "/compras/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id del usuario
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Mostrar las compras que ha hecho el usuario
+      tags:
+      - Compras
+      security:
+      - Bearer: []
+      responses:
+        '204':
+          description: Valid credentials
+  "/productos":
+    get:
+      summary: list productos
+      tags:
+      - Producto
+      responses:
+        '200':
+          description: successful
   "/productos/{id}":
     parameters:
     - name: id
       in: path
-      description: id
+      description: id del producto
       required: true
       schema:
         type: string
@@ -107,79 +136,48 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/new_usuario"
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                name:
+                  type: string
+              required:
+              - email
+              - password
+              - name
   "/usuarios/login":
     post:
       summary: login usuario
       tags:
       - Usuario
+      parameters: []
       responses:
         '200':
           description: successful
-  "/ventas":
-    get:
-      summary: list venta
-      tags:
-      - Venta
-      responses:
-        '200':
-          description: successful
-    post:
-      summary: create venta
-      tags:
-      - Venta
-      responses:
-        '200':
-          description: successful
-  "/ventas/{id}":
-    parameters:
-    - name: id
-      in: path
-      description: id
-      required: true
-      schema:
-        type: string
-    get:
-      summary: show venta
-      tags:
-      - Venta
-      responses:
-        '200':
-          description: successful
-    patch:
-      summary: update venta
-      tags:
-      - Venta
-      responses:
-        '200':
-          description: successful
-    put:
-      summary: update venta
-      tags:
-      - Venta
-      responses:
-        '200':
-          description: successful
-    delete:
-      summary: delete venta
-      tags:
-      - Venta
-      responses:
-        '200':
-          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
 components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Bearer token
+      name: Authorization
+      in: header
   schemas:
-    errors_object:
-      type: object
-      properties:
-        errors:
-          "$ref": "#/components/schemas/errors_map"
-    errors_map:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     usuario:
       type: object
       properties:
@@ -191,21 +189,8 @@ components:
           type: string
         carrito:
           "$ref": "#/components/schemas/carrito"
-        ventas:
-          "$ref": "#/components/schemas/venta"
-      required:
-      - email
-      - password
-      - name
-    new_usuario:
-      type: object
-      properties:
-        email:
-          type: string
-        password:
-          type: string
-        name:
-          type: string
+        compra:
+          "$ref": "#/components/schemas/compra"
       required:
       - email
       - password
@@ -215,23 +200,15 @@ components:
       properties:
         total:
           type: number
-        cantidadComprada:
-          type: number
-        producto:
+        orders:
           type: array
           items:
-            "$ref": "#/components/schemas/producto"
-      required:
-      - total
-      - cantidadComprada
-      - producto
+            "$ref": "#/components/schemas/order"
     producto:
       type: object
       properties:
         nombre:
           type: string
-        stock:
-          type: integer
         precio:
           type: number
         descripcion:
@@ -240,27 +217,29 @@ components:
           type: string
       required:
       - nombre
-      - stock
       - precio
       - descripcion
       - imagen
-    venta:
+    compra:
       type: object
       properties:
-        comprado:
-          type: integer
         total:
           type: number
-        producto:
+        orders:
           type: array
           items:
-            "$ref": "#/components/schemas/producto"
-      required:
-      - comprado
-      - total
-      - producto
+            "$ref": "#/components/schemas/order"
+    order:
+      type: object
+      properties:
+        total:
+          type: number
+        cantidad:
+          type: integer
+        producto:
+          "$ref": "#/components/schemas/producto"
 servers:
-- url: http://localhost:3000
+- url: http://{defaultHost}
   variables:
     defaultHost:
-      default: http://localhost:3000
+      default: localhost:3000

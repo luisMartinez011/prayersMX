@@ -22,20 +22,15 @@ RSpec.configure do |config|
       },
       paths: {},
       components: {
+        securitySchemes: {
+          Bearer: {
+            type: :apiKey,
+            description: 'Bearer token',
+            name: 'Authorization',
+            in: :header
+          }
+        },
         schemas: {
-          errors_object: {
-            type: 'object',
-            properties: {
-              errors: { '$ref' => '#/components/schemas/errors_map' }
-            }
-          },
-          errors_map: {
-            type: 'object',
-            additionalProperties: {
-              type: 'array',
-              items: { type: 'string' }
-            }
-          },
           usuario: {
             type: :object,
             properties: {
@@ -43,7 +38,7 @@ RSpec.configure do |config|
               password: { type: :string },
               name: { type: :string },
               carrito: { '$ref' => '#/components/schemas/carrito' },
-              ventas: { '$ref' => '#/components/schemas/venta' }
+              compra: { '$ref' => '#/components/schemas/compra' }
             },
             required: [ "email", "password", "name"]
           },
@@ -51,49 +46,51 @@ RSpec.configure do |config|
             type: :object,
             properties: {
               total: { type: :number },
-              cantidadComprada: { type: :number },
-              producto: { 
+              orders: { 
                 type: :array,
                 items:{
-                  '$ref' => '#/components/schemas/producto' 
+                  '$ref' => '#/components/schemas/order' 
                 }
               }
-            },
-            required: [ "total", "cantidadComprada", "producto"]
+            }
           },
           producto: {
             type: :object,
             properties: {
               nombre: { type: :string },
-              stock: { type: :integer },
               precio: { type: :number },
               descripcion: { type: :string },
               imagen: { type: :string },
             },
-            required: [ "nombre", "stock", "precio", "descripcion", "imagen"]
+            required: [ "nombre", "precio", "descripcion", "imagen"]
           },
-          venta: {
+          compra: {
             type: :object,
             properties: {
-              comprado: { type: :integer },
               total: { type: :number },
-              producto: { 
+              orders: { 
                 type: :array,
-                items:{
-                  '$ref' => '#/components/schemas/producto' 
-                }
+                items:{ '$ref' => '#/components/schemas/order' }
               }
-            },
-            required: [ "comprado", "total", "producto"]
+            }
+          },
+          order: {
+            type: :object,
+            properties: {
+              total: { type: :number },
+              cantidad: { type: :integer },
+              producto: { '$ref' => '#/components/schemas/producto' 
+              }
+            }
           },
         }
       },
       servers: [
         {
-          url: 'http://localhost:3000',
+          url: 'http://{defaultHost}',
           variables: {
             defaultHost: {
-              default: 'http://localhost:3000'
+              default: 'localhost:3000'
             }
           }
         }

@@ -48,9 +48,8 @@ RSpec.describe 'usuarios', type: :request do
             properties: {
               email: { type: :string },
               password: { type: :string },
-              name: { type: :string },
             },
-        required: [ "email", "password", "name"]
+        required: [ "email", "password"]
       }
       
       response(200, 'successful') do
