@@ -87,7 +87,7 @@ RSpec.configure do |config|
       },
       servers: [
         {
-          url: 'http://{defaultHost}',
+          url: 'https://whispering-hollows-99018.herokuapp.com',
           variables: {
             defaultHost: {
               default: 'localhost:3000'
