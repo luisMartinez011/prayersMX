@@ -1,3 +1,11 @@
+production:
+    clients:
+        default:
+            uri:  mongodb+srv://Luis:SFW2003work@e-commerce.tgyb0.mongodb.net/prayersMX
+        options:
+            skip_version_check: true
+        safe: true
+
 development:
   # Configure available database clients. (required)
   clients:
