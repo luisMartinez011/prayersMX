@@ -45,15 +45,22 @@ end
 
 group :test do
   gem 'mongoid-rspec'
+  # Gemfile
+  gem 'database_cleaner-mongoid'
 end
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
-
+group :development, :test do
+  gem 'factory_bot_rails'
+end
 # swagger open api
 gem 'rspec-rails'
 gem 'rswag'
-gem 'email_validator'  
+gem 'email_validator'
 gem 'github-pages', group: :jekyll_plugins
+gem 'faker'
+
+gem "ruby-lsp", "~> 0.3.6", :group => :development

@@ -7,9 +7,7 @@ class Producto
   field :imagen, type: String
 
   validates :nombre, uniqueness: true, presence: true
-  validates :precio, presence: true 
+  validates :precio, presence: true
   validates :descripcion, presence: true
   validates :imagen, presence: true
-  
 end
-

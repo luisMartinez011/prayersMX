@@ -1,17 +1,14 @@
-require 'swagger_helper'
+require "swagger_helper"
 
-RSpec.describe 'productos', type: :request do
-
-  path '/productos' do
-
-    get('list productos') do
+RSpec.describe "productos", type: :request do
+  path "/productos" do
+    get("list productos") do
       tags "Producto"
-      produces  'application/json'
-      response(200, 'successful') do
-
+      produces "application/json"
+      response(200, "successful") do
         after do |example|
           example.metadata[:response][:content] = {
-            'application/json' => {
+            "application/json" => {
               example: JSON.parse(response.body, symbolize_names: true)
             }
           }
@@ -21,7 +18,7 @@ RSpec.describe 'productos', type: :request do
     end
 
     # post('create producto') do
-      
+
     #   tags "Producto"
     #   consumes 'application/json'
     #   parameter name: :producto, in: :body, schema: { '$ref' => '#/components/schemas/producto' }
@@ -39,23 +36,20 @@ RSpec.describe 'productos', type: :request do
     #end
   end
 
-  path '/productos/{id}' do
+  path "/productos/{id}" do
     # You'll want to customize the parameter types...
-    parameter name: 'id', in: :path, type: :string, description: 'id del producto'
+    parameter name: "id",
+              in: :path,
+              type: :string,
+              description: "id del producto"
 
-    get('show one producto') do
+    get("show one producto") do
       tags "Producto"
-      produces  'application/json'
-      response(200, 'successful') do
-        let(:id) { '123' }
+      produces "application/json"
+      response(200, "successful") do
+        productoPrueba = FactoryBot.create(:producto)
+        let(:id) { productoPrueba.id }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
         run_test!
       end
     end
