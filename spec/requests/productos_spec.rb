@@ -6,13 +6,7 @@ RSpec.describe "productos", type: :request do
       tags "Producto"
       produces "application/json"
       response(200, "successful") do
-        after do |example|
-          example.metadata[:response][:content] = {
-            "application/json" => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+        productosList = FactoryBot.create_list(:producto, 5)
         run_test!
       end
     end

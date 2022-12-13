@@ -1,11 +1,11 @@
 # frozen_string_literal: true
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.configure do |config|
   # Specify a root folder where Swagger JSON files are generated
   # NOTE: If you're using the rswag-api to serve API descriptions, you'll need
   # to ensure that it's configured to serve Swagger from the same folder
-  config.swagger_root = Rails.root.join('swagger').to_s
+  config.swagger_root = Rails.root.join("swagger").to_s
 
   # Define one or more Swagger documents and provide global metadata for each one
   # When you run the 'rswag:specs:swaggerize' rake task, the complete Swagger will
@@ -14,19 +14,20 @@ RSpec.configure do |config|
   # document below. You can override this behavior by adding a swagger_doc tag to the
   # the root example_group in your specs, e.g. describe '...', swagger_doc: 'v2/swagger.json'
   config.swagger_docs = {
-    'v1/swagger.yaml' => {
-      openapi: '3.0.1',
+    "v1/swagger.yaml" => {
+      openapi: "3.0.1",
       info: {
-        title: 'API V1',
-        version: 'v1'
+        title: "API V1",
+        version: "v1"
       },
-      paths: {},
+      paths: {
+      },
       components: {
         securitySchemes: {
           Bearer: {
             type: :apiKey,
-            description: 'Bearer token',
-            name: 'Authorization',
+            description: "Bearer token",
+            name: "Authorization",
             in: :header
           }
         },
@@ -34,22 +35,34 @@ RSpec.configure do |config|
           usuario: {
             type: :object,
             properties: {
-              email: { type: :string },
-              password: { type: :string },
-              name: { type: :string },
-              carrito: { '$ref' => '#/components/schemas/carrito' },
-              compra: { '$ref' => '#/components/schemas/compra' }
+              email: {
+                type: :string
+              },
+              password: {
+                type: :string
+              },
+              name: {
+                type: :string
+              },
+              carrito: {
+                "$ref" => "#/components/schemas/carrito"
+              },
+              compra: {
+                "$ref" => "#/components/schemas/compra"
+              }
             },
-            required: [ "email", "password", "name"]
+            required: %w[email password name]
           },
           carrito: {
             type: :object,
             properties: {
-              total: { type: :number },
-              orders: { 
+              total: {
+                type: :number
+              },
+              orders: {
                 type: :array,
-                items:{
-                  '$ref' => '#/components/schemas/order' 
+                items: {
+                  "$ref" => "#/components/schemas/order"
                 }
               }
             }
@@ -57,43 +70,61 @@ RSpec.configure do |config|
           producto: {
             type: :object,
             properties: {
-              nombre: { type: :string },
-              precio: { type: :number },
-              descripcion: { type: :string },
-              imagen: { type: :string },
+              nombre: {
+                type: :string
+              },
+              precio: {
+                type: :number
+              },
+              descripcion: {
+                type: :string
+              },
+              imagen: {
+                type: :string
+              }
             },
-            required: [ "nombre", "precio", "descripcion", "imagen"]
+            required: %w[nombre precio descripcion imagen]
           },
           compra: {
             type: :object,
             properties: {
-              total: { type: :number },
-              orders: { 
+              total: {
+                type: :number
+              },
+              orders: {
                 type: :array,
-                items:{ '$ref' => '#/components/schemas/order' }
+                items: {
+                  "$ref" => "#/components/schemas/order"
+                }
               }
             }
           },
           order: {
             type: :object,
             properties: {
-              total: { type: :number },
-              cantidad: { type: :integer },
-              producto: { '$ref' => '#/components/schemas/producto' 
+              total: {
+                type: :number
+              },
+              cantidad: {
+                type: :integer
+              },
+              producto: {
+                "$ref" => "#/components/schemas/producto"
               }
             }
-          },
+          }
         }
       },
       servers: [
         {
-          url: 'https://whispering-hollows-99018.herokuapp.com',
+          url: "https://whispering-hollows-99018.herokuapp.com",
           variables: {
             defaultHost: {
-              default: 'localhost:3000'
+              default: "localhost:3000"
             }
           }
-        }
+        },
+        { url: "http://localhost:3000" }
       ]
     }
   }

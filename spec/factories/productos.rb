@@ -10,7 +10,7 @@ FactoryBot.define do
       )
     end
     imagen do
-      Faker::LoremFlickr.image(size: "300x300", search_terms: %w["shirt"])
+      Faker::LoremFlickr.image(size: "300x300", search_terms: ["shirt"])
     end
   end
 end
