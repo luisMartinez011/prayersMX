@@ -13,10 +13,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     env:
       RAILS_ENV: test
-      mongo: mongodb+srv://Luis:SFW2003work@e-commerce.tgyb0.mongodb.net/prayersMX
+      mongo: mongodb+srv://Luis:SFW2003work@e-commerce.tgyb0.mongodb.net/prayersMXTest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

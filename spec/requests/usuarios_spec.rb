@@ -1,7 +1,6 @@
 require "swagger_helper"
 
-usuarioToken = "prueba"
-newUsuario = FactoryBot.build(:usuario, name: "jinsang")
+$newUsuario = FactoryBot.build(:usuario, name: "jinsang")
 RSpec.describe "usuarios", type: :request do
   path "/usuarios/signup" do
     post("signup usuario") do
@@ -28,7 +27,7 @@ RSpec.describe "usuarios", type: :request do
       response(200, "successful") do
         #newUsuario = FactoryBot.create(:usuario)
 
-        let(:new_usuario) { newUsuario }
+        let(:new_usuario) { $newUsuario }
         # let(:new_usuario) { { email: "admin2@gmail.com", password: "dfdf" } }
         # after do |example|
         #   example.metadata[:response][:content] = {
@@ -40,7 +39,7 @@ RSpec.describe "usuarios", type: :request do
 
         run_test! do |response|
           data = JSON.parse(response.body)
-          usuarioToken = data["token"]
+          $usuarioToken = data["token"]
           expect(data["nombre"]).to eq("jinsang")
         end
       end
@@ -72,7 +71,7 @@ RSpec.describe "usuarios", type: :request do
                 }
 
       response(200, "successful") do
-        let(:new_usuario) { newUsuario }
+        let(:new_usuario) { $newUsuario }
         run_test!
       end
     end
