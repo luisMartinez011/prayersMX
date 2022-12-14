@@ -16,8 +16,6 @@ paths:
       summary: ver carrito del usuario
       tags:
       - Carrito
-      security:
-      - Bearer: []
       responses:
         '200':
           description: successful

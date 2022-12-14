@@ -11,14 +11,20 @@ RSpec.describe "carritos", type: :request do
     get("ver carrito del usuario") do
       tags "Carrito"
       produces "application/json"
-      security [Bearer: []]
+      #security [Bearer: []]
 
-      let(:Authorization) { auth_header(user) }
-
+      #let(:Authorization) { auth_header(user) }
       response(200, "successful") do
-        carrito = FactoryBot.create(:carrito)
-        let(:id) { carrito.id }
+        nuevo_carrito = FactoryBot.create(:carrito)
+        let(:id) { nuevo_carrito.usuario_id }
 
+        after do |example|
+          example.metadata[:response][:content] = {
+            "application/json" => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
         run_test!
       end
     end
