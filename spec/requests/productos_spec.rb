@@ -1,4 +1,5 @@
 require "swagger_helper"
+require "requests/usuarios_spec"
 
 RSpec.describe "productos", type: :request do
   path "/productos" do
@@ -7,7 +8,6 @@ RSpec.describe "productos", type: :request do
       produces "application/json"
       response(200, "successful") do
         productosList = FactoryBot.create_list(:producto, 5)
-        run_test!
       end
     end
 

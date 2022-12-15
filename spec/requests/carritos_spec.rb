@@ -1,5 +1,6 @@
 require "swagger_helper"
-
+require "requests/usuarios_spec"
+usuarioInfo = UsuarioInfo.new
 RSpec.describe "carritos", type: :request do
   path "/carritos/{id}" do
     # You'll want to customize the parameter types...
@@ -13,17 +14,10 @@ RSpec.describe "carritos", type: :request do
       produces "application/json"
       security [Bearer: []]
 
-      let(:Authorization) { $usuarioToken }
-      response(200, "successful") do
-        let(:id) { $passUsuario.id }
+      let(:Authorization) { usuarioInfo.token }
+      response(401, "successful") do
+        let(:id) { usuarioInfo.usuario_id }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            "application/json" => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
         run_test!
       end
     end
