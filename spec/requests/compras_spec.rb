@@ -1,21 +1,24 @@
-require 'swagger_helper'
+require "swagger_helper"
+require "requests/usuarios_spec"
 
-RSpec.describe 'compras', type: :request do
+usuarioInfo = UsuarioInfo.new
 
-
-  path '/compras/{id}' do
+RSpec.describe "compras", type: :request do
+  path "/compras/{id}" do
     # You'll want to customize the parameter types...
-    parameter name: 'id', in: :path, type: :string, description: 'id del usuario'
+    parameter name: "id",
+              in: :path,
+              type: :string,
+              description: "id del usuario"
 
-    get('Mostrar las compras que ha hecho el usuario') do
+    get("Mostrar las compras que ha hecho el usuario") do
+      security [{ bearer_auth: [] }]
       tags "Compras"
-      security [Bearer: []]
-      response '204', 'Valid credentials' do
-        let(:Authorization) { "Basic #{::Base64.strict_encode64('jsmith:jspass')}" }
-        let(:api_key) { 'foobar' }
+      response(200, "successful") do
+        let(:Authorization) { "Bearer #{usuarioInfo.token}" }
+        let(:id) { usuarioInfo.usuario_id }
         run_test!
       end
     end
-
   end
 end

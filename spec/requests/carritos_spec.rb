@@ -1,6 +1,9 @@
 require "swagger_helper"
 require "requests/usuarios_spec"
+
 usuarioInfo = UsuarioInfo.new
+newProducto = FactoryBot.create(:producto)
+
 RSpec.describe "carritos", type: :request do
   path "/carritos/{id}" do
     # You'll want to customize the parameter types...
@@ -24,9 +27,10 @@ RSpec.describe "carritos", type: :request do
     end
 
     patch("agregar un producto al carrito") do
+      security [{ bearer_auth: [] }]
       tags "Carrito"
       consumes "application/json"
-      security [Bearer: []]
+
       parameter name: :new_producto,
                 in: :body,
                 schema: {
@@ -41,19 +45,26 @@ RSpec.describe "carritos", type: :request do
                   },
                   required: %w[nombre_producto cantidadComprada]
                 }
-      let(:Authorization) { usuarioInfo.token }
+
       response(200, "successful") do
+        let(:Authorization) { "Bearer #{usuarioInfo.token}" }
         let(:id) { usuarioInfo.usuario_id }
-        let(:new_producto) { FactoryBot.build(:producto) }
+
+        let(:new_producto) do
+          {
+            cantidadComprada: Faker::Number.number(digits: 2),
+            nombre_producto: newProducto.nombre
+          }
+        end
 
         run_test!
       end
     end
 
     delete("quitar un producto del carrito") do
+      security [{ bearer_auth: [] }]
       tags "Carrito"
       consumes "application/json"
-      security [Bearer: []]
       parameter name: :new_producto,
                 in: :body,
                 schema: {
@@ -61,13 +72,23 @@ RSpec.describe "carritos", type: :request do
                   properties: {
                     nombre_producto: {
                       type: :string
+                    },
+                    cantidadComprada: {
+                      type: :number
                     }
                   },
-                  required: ["nombre_producto"]
+                  required: %w[nombre_producto cantidadComprada]
                 }
-      let(:Authorization) { usuarioInfo.token }
+
       response(200, "successful") do
+        let(:Authorization) { "Bearer #{usuarioInfo.token}" }
         let(:id) { usuarioInfo.usuario_id }
+        let(:new_producto) do
+          {
+            cantidadComprada: Faker::Number.number(digits: 2),
+            nombre_producto: newProducto.nombre
+          }
+        end
 
         run_test!
       end
@@ -82,13 +103,13 @@ RSpec.describe "carritos", type: :request do
               description: "id del usuario"
 
     delete("comprar los productos del carrito") do
+      security [{ bearer_auth: [] }]
       tags "Carrito"
       produces "application/json"
-      security [Bearer: []]
       let(:Authorization) { usuarioInfo.token }
       response(200, "successful") do
+        let(:Authorization) { "Bearer #{usuarioInfo.token}" }
         let(:id) { usuarioInfo.usuario_id }
-
         run_test!
       end
     end

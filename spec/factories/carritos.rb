@@ -6,6 +6,5 @@ FactoryBot.define do
       create_list(:order, 5)
       order.reload
     end
-    #orders { Array.new(5) { association(:order, profiles: [instance]) } }
   end
 end

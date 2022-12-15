@@ -1,7 +1,7 @@
 class CarritosController < ApplicationController
   before_action :set_carrito, except: :create
-  before_action :set_producto, except: :ver_carrito
-  before_action :set_order, except: :ver_carrito
+  before_action :set_producto, except: %i[ver_carrito comprar]
+  before_action :set_order, except: %i[ver_carrito comprar]
   before_action :authorize_request
   # GET /carritos/1
   def ver_carrito

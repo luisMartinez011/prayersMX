@@ -8,11 +8,6 @@ RSpec.describe "productos", type: :request do
       produces "application/json"
       response(200, "successful") do
         productosList = FactoryBot.create_list(:producto, 5)
-        run_test! do |response|
-          usuarioinfo = UsuarioInfo.new
-
-          expect(usuarioinfo.token).to eq("jinsang")
-        end
       end
     end
 

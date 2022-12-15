@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :producto do
-    nombre { Faker::Name.name }
+    nombre { Faker::Commerce.product_name }
     precio { Faker::Number.decimal(l_digits: 2) }
     descripcion do
       Faker::Lorem.sentence(
