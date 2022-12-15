@@ -24,11 +24,10 @@ RSpec.configure do |config|
       },
       components: {
         securitySchemes: {
-          Bearer: {
-            type: :apiKey,
-            description: "Bearer token",
-            name: "Authorization",
-            in: :header
+          bearer_auth: {
+            type: :http,
+            scheme: :bearer,
+            bearer_format: :JWT
           }
         },
         schemas: {

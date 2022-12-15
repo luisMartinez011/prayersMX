@@ -10,13 +10,14 @@ RSpec.describe "carritos", type: :request do
               description: "id del usuario"
 
     get("ver carrito del usuario") do
+      security [{ bearer_auth: [] }]
       tags "Carrito"
       produces "application/json"
-      security [Bearer: []]
+      consumes "application/json"
 
-      let(:Authorization) { usuarioInfo.token }
-      response(401, "successful") do
+      response(200, "successful") do
         let(:id) { usuarioInfo.usuario_id }
+        let(:Authorization) { "Bearer #{usuarioInfo.token}" }
 
         run_test!
       end
@@ -40,16 +41,11 @@ RSpec.describe "carritos", type: :request do
                   },
                   required: %w[nombre_producto cantidadComprada]
                 }
+      let(:Authorization) { usuarioInfo.token }
       response(200, "successful") do
-        let(:id) { "123" }
+        let(:id) { usuarioInfo.usuario_id }
+        let(:new_producto) { FactoryBot.build(:producto) }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            "application/json" => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
         run_test!
       end
     end
@@ -69,16 +65,10 @@ RSpec.describe "carritos", type: :request do
                   },
                   required: ["nombre_producto"]
                 }
+      let(:Authorization) { usuarioInfo.token }
       response(200, "successful") do
-        let(:id) { "123" }
+        let(:id) { usuarioInfo.usuario_id }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            "application/json" => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
         run_test!
       end
     end
@@ -95,16 +85,10 @@ RSpec.describe "carritos", type: :request do
       tags "Carrito"
       produces "application/json"
       security [Bearer: []]
+      let(:Authorization) { usuarioInfo.token }
       response(200, "successful") do
-        let(:id) { "123" }
+        let(:id) { usuarioInfo.usuario_id }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            "application/json" => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
         run_test!
       end
     end

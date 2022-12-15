@@ -6,7 +6,7 @@ class UsuarioInfo
     return $usuarioId
   end
   def token
-    return $token
+    return $usuarioToken
   end
 end
 
@@ -34,25 +34,8 @@ RSpec.describe "usuarios", type: :request do
                 }
 
       response(200, "successful") do
-        #newUsuario = FactoryBot.create(:usuario)
-
         let(:new_usuario) { newUsuario }
-        # let(:new_usuario) { { email: "admin2@gmail.com", password: "dfdf" } }
-        # after do |example|
-        #   example.metadata[:response][:content] = {
-        #     "application/json" => {
-        #       example: JSON.parse(response.body, symbolize_names: true)
-        #     }
-        #   }
-        # end
-
-        run_test! do |response|
-          data = JSON.parse(response.body)
-
-          $usuarioToken = data["token"]
-          $usuarioId = assigns(:usuario).id
-          expect(data["nombre"]).to eq("jinsang")
-        end
+        run_test!
       end
 
       # response(422, "bad parameters") do
@@ -83,7 +66,13 @@ RSpec.describe "usuarios", type: :request do
 
       response(200, "successful") do
         let(:new_usuario) { newUsuario }
-        run_test!
+        run_test! do |response|
+          data = JSON.parse(response.body)
+
+          $usuarioToken = data["token"]
+          $usuarioId = assigns(:usuario).id
+          expect(data["nombre"]).to eq("jinsang")
+        end
       end
     end
   end
