@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
-      mongo: "$MONGODB_URL"
+      mongo: ${{secrets.MONGODB_URL}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
