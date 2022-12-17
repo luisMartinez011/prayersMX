@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
-      mongo: "mongo: mongodb+srv://Luis:SFW2003work@e-commerce.tgyb0.mongodb.net/prayersMXTest"
+      mongo: $mongodb_url
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
