@@ -57,5 +57,5 @@ gem 'rspec-rails'
 gem 'rswag'
 gem 'email_validator'
 gem 'faker'
-
+gem "figaro"
 gem "ruby-lsp", "~> 0.3.6", :group => :development

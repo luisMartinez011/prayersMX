@@ -4,121 +4,6 @@ info:
   title: API V1
   version: v1
 paths:
-  "/carritos/{id}":
-    parameters:
-    - name: id
-      in: path
-      description: id del usuario
-      required: true
-      schema:
-        type: string
-    get:
-      summary: ver carrito del usuario
-      tags:
-      - Carrito
-      responses:
-        '200':
-          description: successful
-    patch:
-      summary: agregar un producto al carrito
-      tags:
-      - Carrito
-      security:
-      - Bearer: []
-      parameters: []
-      responses:
-        '200':
-          description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                nombre_producto:
-                  type: string
-                cantidadComprada:
-                  type: integer
-              required:
-              - nombre_producto
-              - cantidadComprada
-    delete:
-      summary: quitar un producto del carrito
-      tags:
-      - Carrito
-      security:
-      - Bearer: []
-      parameters: []
-      responses:
-        '200':
-          description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                nombre_producto:
-                  type: string
-              required:
-              - nombre_producto
-  "/carritos/comprar/{id}":
-    parameters:
-    - name: id
-      in: path
-      description: id del usuario
-      required: true
-      schema:
-        type: string
-    delete:
-      summary: comprar los productos del carrito
-      tags:
-      - Carrito
-      security:
-      - Bearer: []
-      responses:
-        '200':
-          description: successful
-  "/compras/{id}":
-    parameters:
-    - name: id
-      in: path
-      description: id del usuario
-      required: true
-      schema:
-        type: string
-    get:
-      summary: Mostrar las compras que ha hecho el usuario
-      tags:
-      - Compras
-      security:
-      - Bearer: []
-      responses:
-        '204':
-          description: Valid credentials
-  "/productos":
-    get:
-      summary: list productos
-      tags:
-      - Producto
-      responses:
-        '200':
-          description: successful
-  "/productos/{id}":
-    parameters:
-    - name: id
-      in: path
-      description: id del producto
-      required: true
-      schema:
-        type: string
-    get:
-      summary: show one producto
-      tags:
-      - Producto
-      responses:
-        '200':
-          description: successful
   "/usuarios/signup":
     post:
       summary: signup usuario
@@ -128,8 +13,6 @@ paths:
       responses:
         '200':
           description: successful
-        '422':
-          description: bad parameters
       requestBody:
         content:
           application/json:
@@ -168,13 +51,124 @@ paths:
               required:
               - email
               - password
+  "/carritos/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id del usuario
+      required: true
+      schema:
+        type: string
+    get:
+      summary: ver carrito del usuario
+      security:
+      - bearer_auth: []
+      tags:
+      - Carrito
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: agregar un producto al carrito
+      security:
+      - bearer_auth: []
+      tags:
+      - Carrito
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre_producto:
+                  type: string
+                cantidadComprada:
+                  type: integer
+              required:
+              - nombre_producto
+              - cantidadComprada
+    delete:
+      summary: quitar un producto del carrito
+      security:
+      - bearer_auth: []
+      tags:
+      - Carrito
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre_producto:
+                  type: string
+                cantidadComprada:
+                  type: number
+              required:
+              - nombre_producto
+              - cantidadComprada
+  "/carritos/comprar/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id del usuario
+      required: true
+      schema:
+        type: string
+    delete:
+      summary: comprar los productos del carrito
+      security:
+      - bearer_auth: []
+      tags:
+      - Carrito
+      responses:
+        '200':
+          description: successful
+  "/compras/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id del usuario
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Mostrar las compras que ha hecho el usuario
+      security:
+      - bearer_auth: []
+      tags:
+      - Compras
+      responses:
+        '200':
+          description: successful
+  "/productos/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id del producto
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show one producto
+      tags:
+      - Producto
+      responses:
+        '200':
+          description: successful
 components:
   securitySchemes:
-    Bearer:
-      type: apiKey
-      description: Bearer token
-      name: Authorization
-      in: header
+    bearer_auth:
+      type: http
+      scheme: bearer
+      bearer_format: JWT
   schemas:
     usuario:
       type: object
