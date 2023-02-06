@@ -148,6 +148,27 @@ paths:
       responses:
         '200':
           description: successful
+  "/productos":
+    get:
+      summary: list productos
+      tags:
+      - Producto
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create producto
+      tags:
+      - Producto
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/producto"
   "/productos/{id}":
     parameters:
     - name: id
@@ -158,6 +179,27 @@ paths:
         type: string
     get:
       summary: show one producto
+      tags:
+      - Producto
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update producto
+      tags:
+      - Producto
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update producto
+      tags:
+      - Producto
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete producto
       tags:
       - Producto
       responses:
@@ -231,8 +273,7 @@ components:
         producto:
           "$ref": "#/components/schemas/producto"
 servers:
-- url: https://whispering-hollows-99018.herokuapp.com
+- url: http://{defaultHost}
   variables:
     defaultHost:
       default: localhost:3000
-- url: http://localhost:3000
