@@ -17,15 +17,9 @@ RSpec.describe "productos", type: :request do
       tags "Producto"
       consumes 'application/json'
       parameter name: :producto, in: :body, schema: { '$ref' => '#/components/schemas/producto' }
-      response(200, 'successful') do
+      response(201, 'successful') do
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+        let(:producto){FactoryBot.build(:producto)}
         run_test!
       end
     end
@@ -51,16 +45,12 @@ RSpec.describe "productos", type: :request do
     patch('update producto') do
       tags "Producto"
       consumes 'application/json'
+      parameter name: :update_producto,
+                in: :body
       response(200, 'successful') do
-        let(:id) { '123' }
-
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+        productoPrueba = FactoryBot.create(:producto)
+        let(:id) { productoPrueba.id }
+        let(:update_producto) { FactoryBot.build(:producto) }
         run_test!
       end
     end
@@ -68,16 +58,12 @@ RSpec.describe "productos", type: :request do
     put('update producto') do
       tags "Producto"
       consumes 'application/json'
+      parameter name: :update_producto,
+                in: :body
       response(200, 'successful') do
-        let(:id) { '123' }
-
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+        productoPrueba = FactoryBot.create(:producto)
+        let(:id) { productoPrueba.id }
+        let(:update_producto) { FactoryBot.build(:producto) }
         run_test!
       end
     end
@@ -85,16 +71,9 @@ RSpec.describe "productos", type: :request do
     delete('delete producto') do
       tags "Producto"
       consumes 'application/json'
-      response(200, 'successful') do
-        let(:id) { '123' }
-
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+      response(204, 'successful') do
+        productoPrueba = FactoryBot.create(:producto)
+        let(:id) { productoPrueba.id }
         run_test!
       end
     end

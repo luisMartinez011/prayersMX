@@ -10,7 +10,7 @@ class UsuariosController < ApplicationController
       password: params[:password],
       name: params[:name],
       carrito: Carrito.new,
-      compra: Compra.new
+      compra: Compra.new,
     )
     
     @usuario.password = params[:password]
@@ -23,7 +23,7 @@ class UsuariosController < ApplicationController
                     nombre: @usuario.name,
                     usuario_id: @usuario.id,
                     compra_id: @usuario.compra.id,
-                    carrito_id: @usuario.carrito.id
+                    carrito_id: @usuario.carrito.id,
                     }, status: :ok
     else
       render :new, status: :unprocessable_entity
@@ -54,6 +54,6 @@ class UsuariosController < ApplicationController
     end
     # Only allow a list of trusted parameters through.
     def usuario_params
-      params.require(:usuario).permit(:email, :password, :name)
+      params.require(:usuario).permit(:email, :password, :name,)
     end
 end
