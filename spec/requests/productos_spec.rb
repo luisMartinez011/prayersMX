@@ -1,5 +1,7 @@
 require "swagger_helper"
 require "requests/usuarios_spec"
+require "cancan/matchers"
+
 
 RSpec.describe "productos", type: :request do
   path "/productos" do
@@ -7,6 +9,10 @@ RSpec.describe "productos", type: :request do
       tags "Producto"
       produces "application/json"
       response(200, "successful") do
+        subject(:ability) { Ability.new(user) }
+        let(:user) { nil }
+        it { is_expected.to be_able_to(:manage, Producto.new) }
+
         productosList = FactoryBot.create_list(:producto, 5)
         run_test!
       end

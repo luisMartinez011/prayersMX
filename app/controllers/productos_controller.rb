@@ -1,5 +1,6 @@
 class ProductosController < ApplicationController
   before_action :set_producto, only: %i[ show update destroy ]
+  load_and_authorize_resource
 
   # GET /productos
   def index

@@ -11,6 +11,7 @@ class UsuariosController < ApplicationController
       name: params[:name],
       carrito: Carrito.new,
       compra: Compra.new,
+      role: params[:role]
     )
     
     @usuario.password = params[:password]
@@ -54,6 +55,6 @@ class UsuariosController < ApplicationController
     end
     # Only allow a list of trusted parameters through.
     def usuario_params
-      params.require(:usuario).permit(:email, :password, :name,)
+      params.require(:usuario).permit(:email, :password, :name, :role)
     end
 end

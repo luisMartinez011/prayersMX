@@ -61,3 +61,5 @@ gem 'faker'
 gem "figaro"
 gem "ruby-lsp", "~> 0.3.6", :group => :development
 gem 'cancancan', '~> 3.4' 
+gem 'cancancan-mongoid'
+gem 'devise'

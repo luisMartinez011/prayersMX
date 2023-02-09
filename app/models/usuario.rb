@@ -7,13 +7,18 @@ class Usuario
   field :email, type: String
   field :password_digest, type: String
   field :name, type: String
+  field :role, type: String
+  # ROLES = {user:0, 
+  # admin:1}
+
 
   has_one :carrito, autosave: true
   has_one :compra,  autosave: true
-  # validates :email, email: true, uniqueness: true
-  # validates :role, presence: true
+  validates :email, email: true, uniqueness: true
+  validates :role, presence: true
   
 
+  
   
   has_secure_password
   include BCrypt
@@ -30,7 +35,7 @@ class Usuario
     signed_id expires_in: CONFIRMATION_TOKEN_EXPIRATION, purpose: :confirm_email
   end
 
-  # def role?(role_name)
-  #   role == role_name
-  # end
+  def role?(role_name)
+    @role == role_name
+  end
 end

@@ -1,6 +1,7 @@
-require "swagger_helper"
+ require "swagger_helper"
 
 newUsuario = FactoryBot.build(:usuario, name: "jinsang")
+usuario_with_user_role = FactoryBot.create(:usuario, role: "user")
 class UsuarioInfo
   def usuario_id
     return $usuarioId

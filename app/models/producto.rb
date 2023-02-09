@@ -1,6 +1,8 @@
 class Producto
+  
   include Mongoid::Document
   include Mongoid::Timestamps
+  delegate :can?, :cannot?, to: :ability
   field :nombre, type: String
   field :precio, type: Float
   field :descripcion, type: String
@@ -10,4 +12,6 @@ class Producto
   validates :precio, presence: true
   validates :descripcion, presence: true
   validates :imagen, presence: true
+
+  
 end
