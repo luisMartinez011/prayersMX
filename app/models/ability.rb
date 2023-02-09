@@ -14,6 +14,7 @@ class Ability
     # else 
     #   can :read, Producto
     # end
+    
     # Define abilities for the user here. For example:
     #
     #   return unless user.present?

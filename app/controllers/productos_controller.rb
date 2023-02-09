@@ -1,6 +1,5 @@
 class ProductosController < ApplicationController
-  before_action :set_producto, only: %i[ show update destroy ]
-  load_and_authorize_resource
+   load_and_authorize_resource
 
   # GET /productos
   def index
@@ -41,9 +40,7 @@ class ProductosController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_producto
-      @producto = Producto.find(params[:id])
-    end
+    
 
     # Only allow a list of trusted parameters through.
     def producto_params

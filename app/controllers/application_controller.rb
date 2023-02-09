@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::API
+    
+    alias_method :current_user, :current_usuario
+    
     def not_found
         render json: { error: 'not_found' }
     end

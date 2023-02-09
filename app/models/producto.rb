@@ -2,7 +2,6 @@ class Producto
   
   include Mongoid::Document
   include Mongoid::Timestamps
-  delegate :can?, :cannot?, to: :ability
   field :nombre, type: String
   field :precio, type: Float
   field :descripcion, type: String
